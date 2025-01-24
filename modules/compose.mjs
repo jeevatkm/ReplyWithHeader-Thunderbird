@@ -226,7 +226,7 @@ class ReplyWithHeader {
         let locale = await rwhSettings.getHeaderLocale();
         rwhLogger.debug('locale -', locale);
 
-        let startPos = 0;
+        let startPos = -1;
         let linesToDelete = 1;
         if (this.isReply) {
             // Reply insert marker by fallback order
@@ -249,16 +249,16 @@ class ReplyWithHeader {
             }
         } else if (this.isForward) {
             linesToDelete = rwhHeaders.length;
-            for (let l of textLines) {
-                if (l.trim().startsWith(fwdHdrLookupString)) {
+            for (let [index, line] of textLines.entries()) {
+                if (line.trim().startsWith(fwdHdrLookupString)) {
+                    startPos = index;
                     break;
                 }
-                startPos++;
             }
         }
 
         rwhLogger.debug('startPos -', startPos);
-        if (startPos > 0) {
+        if (startPos >= 0) {
             rwhLogger.debug('textLines: ', textLines[startPos]);
             textLines.splice(startPos, linesToDelete, ...rwhHeaders);
         }
@@ -429,12 +429,10 @@ class ReplyWithHeader {
     }
 
     _findPlainTextReplyInsertMarker(textLines, lookupWord) {
-        let startPos = 0;
-        for (let l of textLines) {
-            if (l.trim().includes(lookupWord)) {
-                return { found: true, startPos: startPos }
+        for (let [index, line] of textLines.entries()) {
+            if (line.trim().includes(lookupWord)) {
+                return { found: true, startPos: index }
             }
-            startPos++;
         }
         return { found: false }
     }
