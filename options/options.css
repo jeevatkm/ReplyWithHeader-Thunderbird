@@ -193,7 +193,7 @@ fieldset {
     cursor: pointer;
     color: rgb(0, 48, 135);
     text-align: center;
-    width: 175px;
+    /*width: 175px;*/ /*useless, inconvenient for a long content*/
     font-weight: bold;
     height: 30px;
     display: inline-block;
@@ -220,7 +220,7 @@ fieldset {
 
 /* multiselect dropdown - start */
 .multiselect {
-    width: 150px;
+    /*width: 150px;*/ /*useless, inconvenient for a long content*/
 }
 
 .selectBox {
@@ -261,3 +261,8 @@ fieldset {
     border-radius: 4px;
 }
 /* multiselect dropdown - end */
+
+/* addition */
+* {
+    font: 14px sans-serif;
+}
