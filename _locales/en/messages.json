@@ -1,0 +1,128 @@
+{
+  "extensionDescription": {
+    "message": "Outlook style headers and few goodies for Thunderbird"
+  },
+  "mailAccountIdentities": {
+    "message": "Mail Account Identities"
+  },
+  "selectIdentities": {
+    "message": "Select Identities"
+  },
+  "hdrLocale": {
+    "message": "Locale"
+  },
+  "headers": {
+    "message": "Headers"
+  },
+  "about": {
+    "message": "About"
+  },
+  "lblHeaderQuotSeq": {
+    "message": "Header label sequence"
+  },
+  "quotSeqAttributionStyle0": {
+    "message": "Thunderbird (Subject, Date, From, To, Cc)"
+  },
+  "quotSeqAttributionStyle1": {
+    "message": "Outlook (From, Sent, To, Cc, Subject)"
+  },
+  "quotSeqAttributionStyle2": {
+    "message": "Simple (From, Sent, Subject)"
+  },
+  "quotSeqAttributionStyle3": {
+    "message": "Lookout (From, To, Cc, Date, Subject)"
+  },
+  "lblHdrDate": {
+    "message": "Header date format"
+  },
+  "quotDateAttributionStyle0": {
+    "message": "Locale timezone"
+  },
+  "quotDateAttributionStyle1": {
+    "message": "International timezone (UTC)"
+  },
+  "quotTimeAttributionStyle0": {
+    "message": "12 hours format"
+  },
+  "quotTimeAttributionStyle1": {
+    "message": "24 hours format"
+  },
+  "quotDateIncludeTimezone": {
+    "message": "Include short timezone info"
+  },
+  "lblHeaderFormat": {
+    "message": "Subject prefix"
+  },
+  "transSubjectPrefix": {
+    "message": "Transform subject prefix (Re -> RE and Fwd -> FW)"
+  },
+  "lblHeaderPrefix": {
+    "message": "Header prefix and styling"
+  },
+  "hdrPlainPrefixText": {
+    "message": "Include plain text header prefix text"
+  },
+  "hdrHtmlPrefixLine": {
+    "message": "Include HTML header prefix line, color code"
+  },
+  "hdrHtmlFontSize": {
+    "message": "Apply HTML header font size"
+  },
+  "hdrHtmlFontSizeValue": {
+    "message": "E.g.: 11.5pt or 14px"
+  },
+  "lblCntFormat": {
+    "message": "Content formatting and cleanups"
+  },
+  "cleanBlockQuoteColor": {
+    "message": "Cleanup first level blockquote alignment and color"
+  },
+  "cleanAllBlockQuoteColor": {
+    "message": "Cleanup all level blockquote alignment and color"
+  },
+  "cleanQuoteCharGreaterThan": {
+    "message": "Cleanup first level quote character '> '"
+  },
+  "abtRwhCopyrights": {
+    "message": "\u00a9 Jeevanandam M., All rights reserved."
+  },
+  "buttonWebsite": {
+    "message": "Website"
+  },
+  "buttonReview": {
+    "message": "Write a Review"
+  },
+  "buttonIssues": {
+    "message": "Report Issues"
+  },
+  "lblSupportRwh": {
+    "message": "Support ReplyWithHeader Development"
+  },
+  "donateViaPaypal": {
+    "message": "Donate via PayPal"
+  },
+  "sponsorViaGitHub": {
+    "message": "Sponsor via GitHub"
+  },
+  "paypalNotif": {
+    "message": "Opening PayPal Donation Page. Thanks for supporting ReplyWithHeader."
+  },
+  "githubNotif": {
+    "message": "Opening GitHub Sponsors Page. Thanks for supporting ReplyWithHeader."
+  },
+  "options": {
+    "message": "Options"
+  },
+  "disable": {
+    "message": "Disable for 10s"
+  },
+  "disableNotif": {
+    "message": "Add-on is disabled for 10 seconds on currently displayed message"
+  },
+  "enable": {
+    "message": "Enable all headers for 10s"
+  },
+  "enableNotif": {
+    "message": "Add-on enables forwarding all headers for 10 seconds on currently displayed message"
+  }
+}

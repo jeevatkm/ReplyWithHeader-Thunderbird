@@ -1,0 +1,128 @@
+{
+  "extensionDescription": {
+    "message": "Permet de personnaliser l’en-tête d’une réponse dans le style de Outlook et propose de petits aménagements dans la composition du message."
+  },
+  "mailAccountIdentities": {
+    "message": "Identités des comptes de courrier"
+  },
+  "selectIdentities": {
+    "message": "Sélectionner les identités"
+  },
+  "hdrLocale": {
+    "message": "Langue de l’en-tête"
+  },
+  "headers": {
+    "message": "En-têtes"
+  },
+  "about": {
+    "message": "À propos"
+  },
+  "lblHeaderQuotSeq": {
+    "message": "Agencement"
+  },
+  "quotSeqAttributionStyle0": {
+    "message": "Thunderbird (Sujet, Date, De, Pour, Copie à)"
+  },
+  "quotSeqAttributionStyle1": {
+    "message": "Outlook (De, Envoyé, Pour, Copie à, Sujet)"
+  },
+  "quotSeqAttributionStyle2": {
+    "message": "Simple (De, Envoyé, Sujet)"
+  },
+  "quotSeqAttributionStyle3": {
+    "message": "Lookout (De, Pour, Copie à, Date, Sujet)"
+  },
+  "lblHdrDate": {
+    "message": "Format de la date"
+  },
+  "quotDateAttributionStyle0": {
+    "message": "Heure locale"
+  },
+  "quotDateAttributionStyle1": {
+    "message": "Heure internationale (UTC)"
+  },
+  "quotTimeAttributionStyle0": {
+    "message": "Mode 12 heures"
+  },
+  "quotTimeAttributionStyle1": {
+    "message": "Mode 24 heures"
+  },
+  "quotDateIncludeTimezone": {
+    "message": "Inclure les informations de fuseau horaire abrégées"
+  },
+  "lblHeaderFormat": {
+    "message": "Préfixe du sujet"
+  },
+  "transSubjectPrefix": {
+    "message": "Transformer « Re » en « RE » et « Fwd » en « FW »"
+  },
+  "lblHeaderPrefix": {
+    "message": "Préfixe et style de l’en-tête"
+  },
+  "hdrPlainPrefixText": {
+    "message": "Préfixer l’en-tête en texte brut par un texte"
+  },
+  "hdrHtmlPrefixLine": {
+    "message": "Préfixer l’en-tête en HTML par une ligne de couleur :"
+  },
+  "hdrHtmlFontSize": {
+    "message": "Appliquer à la police de l’en-tête en HTML la taille de :"
+  },
+  "hdrHtmlFontSizeValue": {
+    "message": "11.5pt ou 14px par exemple"
+  },
+  "lblCntFormat": {
+    "message": "Nettoyage et formatage du contenu"
+  },
+  "cleanBlockQuoteColor": {
+    "message": "Supprimer le premier niveau des barres de citation colorées"
+  },
+  "cleanAllBlockQuoteColor": {
+    "message": "Supprimer toutes les barres de citation colorées"
+  },
+  "cleanQuoteCharGreaterThan": {
+    "message": "Supprimer le premier niveau des caractères de citation « >  »"
+  },
+  "abtRwhCopyrights": {
+    "message": "© Jeevanandam M., tous droits réservés."
+  },
+  "buttonWebsite": {
+    "message": "Site web"
+  },
+  "buttonReview": {
+    "message": "Écrire une critique"
+  },
+  "buttonIssues": {
+    "message": "Rapporter un problème"
+  },
+  "lblSupportRwh": {
+    "message": "Soutenir le développement de ReplyWithHeader"
+  },
+  "donateViaPaypal": {
+    "message": "Faire un don avec PayPal"
+  },
+  "sponsorViaGitHub": {
+    "message": "Sponsoriser via GitHub"
+  },
+  "paypalNotif": {
+    "message": "Ouverture de la page de don PayPal.\nMerci de soutenir ReplyWithHeader."
+  },
+  "githubNotif": {
+    "message": "Ouverture de la page des sponsors GitHub.\nMerci de soutenir ReplyWithHeader."
+  },
+  "options": {
+    "message": "Options"
+  },
+  "disable": {
+    "message": "Désactiver pendant 10 secondes"
+  },
+  "disableNotif": {
+    "message": "L’extension est désactivée pendant 10 secondes pour le message affiché."
+  },
+  "enable": {
+    "message": "Activer tous les en-têtes pendant 10 secondes"
+  },
+  "enableNotif": {
+    "message": "Le transfert des en-têtes est permis pendant 10 secondes pour le message affiché."
+  }
+}

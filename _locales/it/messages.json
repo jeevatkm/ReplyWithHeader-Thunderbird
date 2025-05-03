@@ -1,0 +1,128 @@
+{
+  "extensionDescription": {
+    "message": "Personalizzazione in stile Outlook delle intestazioni per TB/BB con aggiunta di alcuni piccoli miglioramenti"
+  },
+  "mailAccountIdentities": {
+    "message": "Identità degli account di posta elettronica"
+  },
+  "selectIdentities": {
+    "message": "Seleziona le Identità"
+  },
+  "hdrLocale": {
+    "message": "Lingua delle intestazioni"
+  },
+  "headers": {
+    "message": "Intestazioni"
+  },
+  "about": {
+    "message": "Info"
+  },
+  "lblHeaderQuotSeq": {
+    "message": "Sequenza dei campi delle intestazioni"
+  },
+  "quotSeqAttributionStyle0": {
+    "message": "Thunderbird/Betterbird (Oggetto, Data, Da, A, Cc)"
+  },
+  "quotSeqAttributionStyle1": {
+    "message": "Outlook (Da, Inviata, A, Cc, Oggetto)"
+  },
+  "quotSeqAttributionStyle2": {
+    "message": "Semplice (Da, Inviata, Oggetto)"
+  },
+  "quotSeqAttributionStyle3": {
+    "message": "Lookout (Da, A, Cc, Data, Oggetto)"
+  },
+  "lblHdrDate": {
+    "message": "Formato data delle intestazioni"
+  },
+  "quotDateAttributionStyle0": {
+    "message": "Fuso orario"
+  },
+  "quotDateAttributionStyle1": {
+    "message": "Fuso orario internazionale (UTC)"
+  },
+  "quotTimeAttributionStyle0": {
+    "message": "Formato AM/PM"
+  },
+  "quotTimeAttributionStyle1": {
+    "message": "Formato 24 ore"
+  },
+  "quotDateIncludeTimezone": {
+    "message": "Inclusione di brevi info sul fuso orario"
+  },
+  "lblHeaderFormat": {
+    "message": "Prefisso dell'Oggetto"
+  },
+  "transSubjectPrefix": {
+    "message": "Trasformazione del prefisso dell'Oggetto (Re -> RE e Fwd -> FW)"
+  },
+  "lblHeaderPrefix": {
+    "message": "Prefisso e stile dell'intestazione"
+  },
+  "hdrPlainPrefixText": {
+    "message": "Il testo che precede l'intestazione include del testo semplice"
+  },
+  "hdrHtmlPrefixLine": {
+    "message": "La linea che precede l'intestazione in HTML ha codice colore "
+  },
+  "hdrHtmlFontSize": {
+    "message": "I caratteri dell'intestazione HTML hanno dimensione di "
+  },
+  "hdrHtmlFontSizeValue": {
+    "message": "Per es.: 11.5pt o 14px"
+  },
+  "lblCntFormat": {
+    "message": "Formattazione del contenuto e pulizia del testo"
+  },
+  "cleanBlockQuoteColor": {
+    "message": "Elimina l'allineamento e il colore del primo livello di citazioni"
+  },
+  "cleanAllBlockQuoteColor": {
+    "message": "Elimina l'allineamento e il colore di tutti i livelli di citazioni"
+  },
+  "cleanQuoteCharGreaterThan": {
+    "message": "Elimina il carattere '>' che identifica il primo livello di citazioni"
+  },
+  "abtRwhCopyrights": {
+    "message": "\u00a9 Jeevanandam M., Tutti i diritti riservati."
+  },
+  "buttonWebsite": {
+    "message": "Sito Web"
+  },
+  "buttonReview": {
+    "message": "Scrivi una recensione"
+  },
+  "buttonIssues": {
+    "message": "Segnala problemi"
+  },
+  "lblSupportRwh": {
+    "message": "Supporta lo sviluppo di ReplyWithHeader (RWH)"
+  },
+  "donateViaPaypal": {
+    "message": "Dona con PayPal"
+  },
+  "sponsorViaGitHub": {
+    "message": "Sponsorizza tramite GitHub"
+  },
+  "paypalNotif": {
+    "message": "Apertura della pagina delle donazioni con PayPal. Grazie per il supporto di RWH!"
+  },
+  "githubNotif": {
+    "message": "Apertura della pagina delle sponsorizzazioni GitHub. Grazie per il supporto di RWH!"
+  },
+  "options": {
+    "message": "Opzioni"
+  },
+  "disable": {
+    "message": "Disabilita per 10 sec"
+  },
+  "disableNotif": {
+    "message": "Estensione disabilitata per 10 secondi sul messaggio attualmente visualizzato"
+  },
+  "enable": {
+    "message": "Abilita tutte le intestazioni per 10 sec"
+  },
+  "enableNotif": {
+    "message": "L'estensione abilita l'inoltro di tutte le intestazioni per 10 secondi sul messaggio attualmente visualizzato"
+  }
+}
