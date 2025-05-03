@@ -1,10 +1,11 @@
 {
     "manifest_version": 2,
     "name": "ReplyWithHeader",
-    "description": "Outlook style headers and few goodies for Thunderbird",
+    "description": "__MSG_extensionDescription__",
     "version": "3.3.0",
     "author": "Jeevanandam M.",
     "homepage_url": "https://myjeeva.com/replywithheader-mozilla",
+    "default_locale": "en",
     "browser_specific_settings": {
         "gecko": {
             "id": "replywithheader@myjeeva.com",
