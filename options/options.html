@@ -22,109 +22,112 @@
 <body>
 
     <div class="hbox" style="margin-bottom: 1.5em">
-        <img id="identitySelectImg" src='/images/mail-identities.svg' width='21' height='21' title="Mail Account Identities" />
+        <!--<img id="identitySelectImg" src='/images/mail-identities.svg' width='21' height='21' title="Mail Account Identities" />-->
+        <img id="identitySelectImg" src='/images/mail-identities.svg' width='21' height='21' data-i18n="mailAccountIdentities" data-i18n-value="title" />
         <div id="multiselectIdentity" class="multiselect">
             <div id="selectBox" class="selectBox">
-                <select><option>Select Identities</option></select>
+                <select><option data-i18n="selectIdentities">Select Identities</option></select>
                 <div class="overSelect"></div>
             </div>
             <div id="multiselectCheckboxes"></div>
         </div>
         <div class="spacer"></div>
-        <img id="hdrLocaleImg" src='/images/language.svg' width='21' height='21' title="Locale" />
+        <!--<img id="hdrLocaleImg" src='/images/language.svg' width='21' height='21' title="Locale" />-->
+        <img id="hdrLocaleImg" src='/images/language.svg' width='21' height='21' data-i18n="hdrLocale" data-i18n-value="title" />
         <select id="hdrLocale" data-preference="header.locale" style="width: 175px;">
         </select>
     </div>
 
     <div id="tabpanel">
         <ul role="tablist" id="tabList">
-            <li id="headersTab" role="tab" aria-controls="headersPanel" aria-selected="true">Headers</li>
-            <li id="aboutTab" role="tab" aria-controls="aboutPanel" aria-selected="false">About</li>
+            <li id="headersTab" role="tab" aria-controls="headersPanel" aria-selected="true" data-i18n="headers">Headers</li>
+            <li id="aboutTab" role="tab" aria-controls="aboutPanel" aria-selected="false" data-i18n="about">About</li>
         </ul>
         <div id="tabcontent">
             <div id="headersPanel" role="tabpanel" aria-labelledby="headersTab" aria-hidden="false">
                 <fieldset>
-                    <legend id="lblHeaderQuotSeq">Header label sequence</legend>
+                    <legend id="lblHeaderQuotSeq" data-i18n="lblHeaderQuotSeq">Header label sequence</legend>
                     <div class="vbox" data-type="radiogroup" data-preference="header.label.seq.style">
-                        <label><input type="radio" name="quotSeqAttributionStyle" value="0" />Thunderbird (Subject, Date,
-                            From, To, Cc)</label>
-                        <label><input type="radio" name="quotSeqAttributionStyle" value="1" />Outlook (From, Sent, To,
-                            Cc, Subject)</label>
-                        <label><input type="radio" name="quotSeqAttributionStyle" value="2" />Simple (From, Sent,
-                            Subject)</label>
-                        <label><input type="radio" name="quotSeqAttributionStyle" value="3" />Lookout (From, To, Cc,
-                            Date, Subject)</label>
+                        <label><input type="radio" name="quotSeqAttributionStyle" value="0" /><span data-i18n="quotSeqAttributionStyle0"></span><!--Thunderbird (Subject, Date,
+                            From, To, Cc)--></label>
+                        <label><input type="radio" name="quotSeqAttributionStyle" value="1" /><span data-i18n="quotSeqAttributionStyle1"></span><!--Outlook (From, Sent, To,
+                            Cc, Subject)--></label>
+                        <label><input type="radio" name="quotSeqAttributionStyle" value="2" /><span data-i18n="quotSeqAttributionStyle2"></span><!--Simple (From, Sent,
+                            Subject)--></label>
+                        <label><input type="radio" name="quotSeqAttributionStyle" value="3" /><span data-i18n="quotSeqAttributionStyle3"></span><!--Lookout (From, To, Cc,
+                            Date, Subject)--></label>
                     </div>
                 </fieldset>
                 <fieldset>
-                    <legend id="lblHdrDate">Header date format</legend>
+                    <legend id="lblHdrDate" data-i18n="lblHdrDate">Header date format</legend>
                     <div class="hbox" data-type="radiogroup" data-preference="header.date.format">
-                        <label><input type="radio" name="quotDateAttributionStyle" value="0" />Locale timezone</label>
-                        <label><input type="radio" name="quotDateAttributionStyle" value="1" />International timezone
-                            (UTC)</label>
+                        <label><input type="radio" name="quotDateAttributionStyle" value="0" /><span data-i18n="quotDateAttributionStyle0"></span><!--Locale timezone--></label>
+                        <label><input type="radio" name="quotDateAttributionStyle" value="1" /><span data-i18n="quotDateAttributionStyle1"></span><!--International timezone
+                            (UTC)--></label>
                     </div>
                     <div class="hbox" data-type="radiogroup" data-preference="header.time.format">
-                        <label><input type="radio" name="quotTimeAttributionStyle" value="0" />12 hours format</label>
-                        <label><input type="radio" name="quotTimeAttributionStyle" value="1" />24 hours format</label>
+                        <label><input type="radio" name="quotTimeAttributionStyle" value="0" /><span data-i18n="quotTimeAttributionStyle0"></span><!--12 hours format--></label>
+                        <label><input type="radio" name="quotTimeAttributionStyle" value="1" /><span data-i18n="quotTimeAttributionStyle1"></span><!--24 hours format--></label>
                     </div>
                     <div class="hbox">
                         <label>
                             <input type="checkbox" id="quotDateIncludeTimezone" data-preference="header.date.timezone" />
-                            Include short timezone info
+                            <span data-i18n="quotDateIncludeTimezone">Include short timezone info</span>
                         </label>
                     </div>
                 </fieldset>
                 <fieldset>
-                    <legend id="lblHeaderFormat">Subject prefix</legend>
+                    <legend id="lblHeaderFormat" data-i18n="lblHeaderFormat">Subject prefix</legend>
                     <div class="hbox">
                         <label>
                             <input type="checkbox" id="transSubjectPrefix" data-preference="trans.subject.prefix" />
-                            Transform subject prefix (Re -> RE and Fwd -> FW)
+                            <span data-i18n="transSubjectPrefix">Transform subject prefix (Re -> RE and Fwd -> FW)</span>
                         </label>
                     </div>
                 </fieldset>
                 <fieldset>
-                    <legend id="lblHeaderPrefix">Header prefix and styling</legend>
+                    <legend id="lblHeaderPrefix" data-i18n="lblHeaderPrefix">Header prefix and styling</legend>
                     <div class="hbox">
                         <label>
                             <input type="checkbox" id="hdrPlainPrefixText" data-preference="header.plain.prefix.text" />
-                            Include plain text header prefix text
+                            <span data-i18n="hdrPlainPrefixText">Include plain text header prefix text</span>
                         </label>
                     </div>
                     <div class="hbox">
                         <label>
                             <input type="checkbox" id="hdrHtmlPrefixLine" data-preference="header.html.prefix.line" />
-                            Include HTML header prefix line, color code
+                            <span data-i18n="hdrHtmlPrefixLine">Include HTML header prefix line, color code</span>
                             <input type="text" id="hdrHtmlPrefixLineColor" data-preference="header.html.prefix.line.color" style="height: 17px;width: 75px;font-size: 12px;text-align: center;" />
                         </label>
                     </div>
                     <div class="hbox">
                         <label>
                             <input type="checkbox" id="hdrHtmlFontSize" data-preference="header.html.font.size" />
-                            Apply HTML header font size
-                            <input type="text" id="hdrHtmlFontSizeValue" title="E.g.: 11.5pt or 14px" data-preference="header.html.font.size.value" style="height: 17px;width: 75px;font-size: 12px;text-align: center;" />
+                            <span data-i18n="hdrHtmlFontSize">Apply HTML header font size</span>
+                            <!--<input type="text" id="hdrHtmlFontSizeValue" title="E.g.: 11.5pt or 14px" data-preference="header.html.font.size.value" style="height: 17px;width: 75px;font-size: 12px;text-align: center;" />-->
+                            <input type="text" id="hdrHtmlFontSizeValue" data-i18n="hdrHtmlFontSizeValue" data-i18n-value="title" data-preference="header.html.font.size.value" style="height: 17px;width: 75px;font-size: 12px;text-align: center;" />
                         </label>
                     </div>
                 </fieldset>
 
                 <fieldset>
-                    <legend id="lblCntFormat">Content formatting and cleanups</legend>
+                    <legend id="lblCntFormat" data-i18n="lblCntFormat">Content formatting and cleanups</legend>
                     <div class="hbox">
                         <label>
                             <input type="checkbox" id="cleanBlockQuoteColor" data-preference="clean.blockquote.color" />
-                            Cleanup first level blockquote alignment and color
+                            <span data-i18n="cleanBlockQuoteColor">Cleanup first level blockquote alignment and color</span>
                         </label>
                     </div>
                     <div class="hbox" style="padding-left: 25px;">
                         <label>
                             <input type="checkbox" id="cleanAllBlockQuoteColor" data-preference="clean.blockquote.all.color" />
-                            Cleanup all level blockquote alignment and color
+                            <span data-i18n="cleanAllBlockQuoteColor">Cleanup all level blockquote alignment and color</span>
                         </label>
                     </div>
                     <div class="hbox">
                         <label>
                             <input type="checkbox" id="cleanQuoteCharGreaterThan" data-preference="clean.quote.char.greaterthan" />
-                            Cleanup first level quote character '> '
+                            <span data-i18n="cleanQuoteCharGreaterThan">Cleanup first level quote character '> '</span>
                         </label>
                     </div>
                 </fieldset>
@@ -134,14 +137,14 @@
                 <div class="vbox center" style="margin-top: 30px">
                     <img id="abtRwhLogo" src='/images/rwh.svg' width='64' height='64' />
                     <div class="label" id="abtRwhCaption" style="font-weight:bold;">ReplyWithHeader</div>
-                    <div class="label" id="abtRwhCopyrights" style="font-size:12px;">&#169; Jeevanandam M., All rights reserved.</div>
+                    <div class="label" id="abtRwhCopyrights" data-i18n="abtRwhCopyrights" style="font-size:12px;">&#169; Jeevanandam M., All rights reserved.</div>
                 </div>
 
                 <div class="vbox center" style="margin-top: 20px">
                     <div class="hbox" id="hboxRwhBtn">
-                        <button id="buttonWebsite">Website</button>
-                        <button id="buttonReview">Write a Review</button>
-                        <button id="buttonIssues">Report Issues</button>
+                        <button id="buttonWebsite" data-i18n="buttonWebsite">Website</button>
+                        <button id="buttonReview" data-i18n="buttonReview">Write a Review</button>
+                        <button id="buttonIssues" data-i18n="buttonIssues">Report Issues</button>
                     </div>
                 </div>
 
@@ -151,18 +154,18 @@
 
     <div>
         <fieldset style="margin-top: 20px">
-            <legend>Support ReplyWithHeader Development</legend>
+            <legend data-i18n="lblSupportRwh">Support ReplyWithHeader Development</legend>
             <div class="vbox center" style="margin-top: 10px; margin-bottom: 10px;">
                 <div class="hbox" id="hboxRwhBtn">
                     <button id="buttonPaypal">
                         <img src="/images/paypal-mark-color.svg" style="height: 22px; width: 22px; margin-right: 3px; vertical-align: middle;">
-                        <span>Donate via PayPal</span>
+                        <span data-i18n="donateViaPaypal">Donate via PayPal</span>
                     </button>
                     <button id="buttonGithub" style="margin-left:15px;">
                         <svg aria-hidden="true" height="22" viewBox="0 0 16 16" version="1.1" width="22" data-view-component="true" class="github-sponsor-button">
                             <path d="m8 14.25.345.666a.75.75 0 0 1-.69 0l-.008-.004-.018-.01a7.152 7.152 0 0 1-.31-.17 22.055 22.055 0 0 1-3.434-2.414C2.045 10.731 0 8.35 0 5.5 0 2.836 2.086 1 4.25 1 5.797 1 7.153 1.802 8 3.02 8.847 1.802 10.203 1 11.75 1 13.914 1 16 2.836 16 5.5c0 2.85-2.045 5.231-3.885 6.818a22.066 22.066 0 0 1-3.744 2.584l-.018.01-.006.003h-.002ZM4.25 2.5c-1.336 0-2.75 1.164-2.75 3 0 2.15 1.58 4.144 3.365 5.682A20.58 20.58 0 0 0 8 13.393a20.58 20.58 0 0 0 3.135-2.211C12.92 9.644 14.5 7.65 14.5 5.5c0-1.836-1.414-3-2.75-3-1.373 0-2.609.986-3.029 2.456a.749.749 0 0 1-1.442 0C6.859 3.486 5.623 2.5 4.25 2.5Z"></path>
                         </svg>
-                        <span>Sponsor via GitHub</span>
+                        <span data-i18n="sponsorViaGitHub">Sponsor via GitHub</span>
                     </button>
                 </div>
             </div>
