@@ -22,7 +22,7 @@ const toolsRootMenu = { id: 'rwh_tools_root', title: 'RWH', contexts: ['tools_me
 const toolsActionMenus = [
     {
         id: 'rwh_options',
-        title: 'Options',
+        title: browser.i18n.getMessage('options'),
         onclick: async () => {
             await rwhSettings.set('options.ui.target.command', 'openHeadersTab');
             messenger.runtime.openOptionsPage();
@@ -30,7 +30,7 @@ const toolsActionMenus = [
     },
     {
         id: 'rwh_about',
-        title: 'About',
+        title: browser.i18n.getMessage('about'),
         onclick: async () => {
             await rwhSettings.set('options.ui.target.command', 'openAboutTab');
             messenger.runtime.openOptionsPage();
@@ -42,14 +42,14 @@ const toolsActionMenus = [
     },
     {
         id: 'rwh_donate_paypal',
-        title: 'Donate via PayPal',
+        title: browser.i18n.getMessage('donateViaPaypal'),
         onclick: async () => {
             messenger.windows.openDefaultBrowser(rwhSettings.paypalDonateUrl);
         }
     },
     {
         id: 'rwh_sponsor_github',
-        title: 'Sponsor via GitHub',
+        title: browser.i18n.getMessage('sponsorViaGitHub'),
         onclick: async () => {
             messenger.windows.openDefaultBrowser(rwhSettings.gitHubSponsorUrl);
         }
@@ -59,7 +59,7 @@ const toolsActionMenus = [
 const messageDisplayActionMenus = [
     {
         id: 'rwh_disable_10s',
-        title: 'Disable for 10s',
+        title: browser.i18n.getMessage('disable'),
         contexts: ['message_display_action_menu'],
         onclick: async (clickData, tab) => {
             let message = await messenger.messageDisplay.getDisplayedMessage(tab.id);
@@ -72,12 +72,12 @@ const messageDisplayActionMenus = [
                 value: true,
                 tabId: tab.id,
             });
-            rwhNotifications.show('Add-on is disabled for 10 seconds on currently displayed message');
+            rwhNotifications.show(browser.i18n.getMessage('disableNotif'));
         }
     },
     {
         id: 'rwh_all_headers_10s',
-        title: 'Enable all headers for 10s',
+        title: browser.i18n.getMessage('enable'),
         contexts: ['message_display_action_menu'],
         onclick: async (clickData, tab) => {
             let message = await messenger.messageDisplay.getDisplayedMessage(tab.id);
@@ -90,7 +90,7 @@ const messageDisplayActionMenus = [
                 value: true,
                 tabId: tab.id,
             });
-            rwhNotifications.show('Add-on enables forwarding all headers for 10 seconds on currently displayed message');
+            rwhNotifications.show(browser.i18n.getMessage('enableNotif'));
         }
     }
 ];
