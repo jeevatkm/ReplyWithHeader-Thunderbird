@@ -53,7 +53,7 @@ export const i18n = {
     "ru": "От:",
     "sv": "Från:",
     "fi": "Lähettäjä:",
-    "zh-CN": "来自:",
+    "zh-CN": "发件人:",
     "hu": "Feladó:",
     "vi": "Từ:",
     "zh-TW": "從:"
@@ -173,7 +173,7 @@ export const i18n = {
     "ru": "Отправлено:",
     "sv": "Skickat:",
     "fi": "Lähetetty:",
-    "zh-CN": "发送了:",
+    "zh-CN": "发送于:",
     "hu": "Küldött:",
     "vi": "Đã gửi:",
     "zh-TW": "傳送:"
