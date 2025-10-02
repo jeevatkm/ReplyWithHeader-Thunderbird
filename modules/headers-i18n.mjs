@@ -162,7 +162,7 @@ export const i18n = {
     "de": "Gesendet:",
     "es": "Enviado:",
     "it": "Inviata:",
-    "ja": "送信メール:",
+    "ja": "送信日時:",
     "pl": "Wysłane:",
     "ar": "المرسلة:",
     "pt": "Enviado:",
@@ -176,7 +176,7 @@ export const i18n = {
     "zh-CN": "发送时间:",
     "hu": "Küldött:",
     "vi": "Đã gửi:",
-    "zh-TW": "傳送:"
+    "zh-TW": "傳送時間:"
   },
   "reply-to": {
     "en-US": "Reply-To:",
@@ -186,7 +186,7 @@ export const i18n = {
     "de": "Antwort an:",
     "es": "Responder a:",
     "it": "Rispondi-a:",
-    "ja": "に返信：",
+    "ja": "返信アドレス：",
     "pl": "Odpowiedź na:",
     "ar": "الرد على:",
     "pt": "Responder-Para:",
@@ -197,7 +197,7 @@ export const i18n = {
     "ru": "Ответить-кому:",
     "sv": "Svar till:",
     "fi": "Vastausosoite:",
-    "zh-CN": "回复到:",
+    "zh-CN": "回复地址:",
     "hu": "Válasz-Címzett:",
     "vi": "Trả lời Tới:",
     "zh-TW": "回函地址:"
