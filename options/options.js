@@ -14,6 +14,14 @@ import * as rwhI18n from '../modules/headers-i18n.mjs';
 import * as rwhAccounts from '../modules/accounts.mjs';
 import * as rwhUtils from '../modules/utils.mjs';
 
+// Options page localization.
+[...document.querySelectorAll('[data-i18n]')].forEach(e => {
+  e[e.dataset.i18nValue || 'textContent'] = browser.i18n.getMessage(e.dataset.i18n);
+  if (e.dataset.i18nTitle) {
+    e.title = browser.i18n.getMessage(e.dataset.i18nTitle);
+  }
+});
+
 // UI function to hide/show out option tabs.
 function tabListClickHandler(elem) {
     let target = elem.target;
@@ -39,12 +47,12 @@ function openRwhTab(target) {
 }
 
 function openPaypal() {
-    rwhNotifications.show('Opening PayPal Donation Page. Thanks for supporting ReplyWithHeader.');
+    rwhNotifications.show(browser.i18n.getMessage("paypalNotif"));
     messenger.windows.openDefaultBrowser(rwhSettings.paypalDonateUrl);
 }
 
 function openGithub() {
-    rwhNotifications.show('Opening GitHub Sponsors Page. Thanks for supporting ReplyWithHeader.');
+    rwhNotifications.show(browser.i18n.getMessage("githubNotif"));
     messenger.windows.openDefaultBrowser(rwhSettings.gitHubSponsorUrl);
 }
 
