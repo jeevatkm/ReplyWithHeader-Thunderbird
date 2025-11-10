@@ -173,7 +173,7 @@ export const i18n = {
     "ru": "Отправлено:",
     "sv": "Skickat:",
     "fi": "Lähetetty:",
-    "zh-CN": "发送于:",
+    "zh-CN": "发送时间:",
     "hu": "Küldött:",
     "vi": "Đã gửi:",
     "zh-TW": "傳送:"
