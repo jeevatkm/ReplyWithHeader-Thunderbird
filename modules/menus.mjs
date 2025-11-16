@@ -72,7 +72,7 @@ const messageDisplayActionMenus = [
                 value: true,
                 tabId: tab.id,
             });
-            rwhNotifications.show('Add-on is disabled for 10 seconds on currently displayed message');
+            // rwhNotifications.show('Add-on is disabled for 10 seconds on currently displayed message');
         }
     },
     {
@@ -90,7 +90,7 @@ const messageDisplayActionMenus = [
                 value: true,
                 tabId: tab.id,
             });
-            rwhNotifications.show('Add-on enables forwarding all headers for 10 seconds on currently displayed message');
+            // rwhNotifications.show('Add-on enables forwarding all headers for 10 seconds on currently displayed message');
         }
     }
 ];
