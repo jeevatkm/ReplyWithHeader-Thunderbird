@@ -33,7 +33,8 @@ export const i18n = {
     "zh-CN": "Simplified Chinese - 简体中文",
     "hu": "Hungarian - Magyar",
     "vi": "Vietnamese - tiếng Việt",
-    "zh-TW": "Traditional Chinese - 正體中文"
+    "zh-TW": "Traditional Chinese - 正體中文",
+    "cs": "Czech"
   },
   "from": {
     "en-US": "From:",
@@ -58,7 +59,8 @@ export const i18n = {
     "zh-CN": "发件人:",
     "hu": "Feladó:",
     "vi": "Từ:",
-    "zh-TW": "從:"
+    "zh-TW": "從:",
+    "cs": "Od:"
   },
   "to": {
     "en-US": "To:",
@@ -83,7 +85,8 @@ export const i18n = {
     "zh-CN": "收件人:",
     "hu": "Címzett:",
     "vi": "Tới:",
-    "zh-TW": "到:"
+    "zh-TW": "到:",
+    "cs": "Komu:"
   },
   "cc": {
     "en-US": "Cc:",
@@ -108,7 +111,8 @@ export const i18n = {
     "zh-CN": "抄送:",
     "hu": "Másolat:",
     "vi": "Cc:",
-    "zh-TW": "副本:"
+    "zh-TW": "副本:",
+    "cs": "Cc:"
   },
   "subject": {
     "en-US": "Subject:",
@@ -133,7 +137,8 @@ export const i18n = {
     "zh-CN": "主题:",
     "hu": "Tárgy:",
     "vi": "Tiêu đề:",
-    "zh-TW": "主旨:"
+    "zh-TW": "主旨:",
+    "cs": "Předmět:"
   },
   "date": {
     "en-US": "Date:",
@@ -158,7 +163,8 @@ export const i18n = {
     "zh-CN": "日期:",
     "hu": "Dátum:",
     "vi": "Ngày:",
-    "zh-TW": "日期:"
+    "zh-TW": "日期:",
+    "cs": "Datum:"
   },
   "sent": {
     "en-US": "Sent:",
@@ -183,7 +189,8 @@ export const i18n = {
     "zh-CN": "发送时间:",
     "hu": "Küldött:",
     "vi": "Đã gửi:",
-    "zh-TW": "傳送時間:"
+    "zh-TW": "傳送時間:",
+    "cs": "Odesláno:"
   },
   "reply-to": {
     "en-US": "Reply-To:",
@@ -208,7 +215,8 @@ export const i18n = {
     "zh-CN": "回复地址:",
     "hu": "Válasz-Címzett:",
     "vi": "Trả lời Tới:",
-    "zh-TW": "回函地址:"
+    "zh-TW": "回函地址:",
+    "cs": "Odpovědět na:"
   },
   "forwardedMessage": {
     "en-US": "Forwarded Message",
@@ -233,7 +241,8 @@ export const i18n = {
     "zh-CN": "转发的消息",
     "hu": "Továbbított üzenet",
     "vi": "Tin nhắn đã được chuyển tiếp",
-    "zh-TW": "轉寄郵件"
+    "zh-TW": "轉寄郵件",
+    "cs": "Přeposlaná zpráva"
   },
   "originalMessage": {
     "en-US": "Original Message",
@@ -258,7 +267,8 @@ export const i18n = {
     "zh-CN": "原始邮件",
     "hu": "Eredeti üzenet",
     "vi": "Tin nhắn gốc",
-    "zh-TW": "原始訊息"
+    "zh-TW": "原始訊息",
+    "cs": "Původní zpráva"
   },
   "wrote": {
     "en-US": "wrote:",
@@ -283,6 +293,7 @@ export const i18n = {
     "zh-CN": "写道:",
     "hu": "írta:",
     "vi": "viết:",
-    "zh-TW": "寫道:"
+    "zh-TW": "寫道:",
+    "cs": "napsal:"
   }
 };
