@@ -63,7 +63,7 @@ const messageDisplayActionMenus = [
         contexts: ['message_display_action_menu'],
         onclick: async (clickData, tab) => {
             let message = await messenger.messageDisplay.getDisplayedMessage(tab.id);
-            let prefName = `disable.${message.folder.accountId}.message_${message.id}`;
+            let prefName = `disable.message_${message.id}`;
             badgeCounter = 10;
             let intervalId = setInterval(showStatusBadge, 1000, tab.id);
             await setPrefAndSetDelayClear({
@@ -77,7 +77,7 @@ const messageDisplayActionMenus = [
     },
     {
         id: 'rwh_all_headers_10s',
-        title: 'Enable all headers for 10s',
+        title: 'Enable all headers in forward for 10s',
         contexts: ['message_display_action_menu'],
         onclick: async (clickData, tab) => {
             let message = await messenger.messageDisplay.getDisplayedMessage(tab.id);

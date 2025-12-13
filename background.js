@@ -36,13 +36,14 @@ messenger.identities.onDeleted.addListener(async function (identityId) {
 
 async function detectLocaleAndSetAsDefault() {
     let userSelected = await rwhSettings.isHeaderLocaleUserSelected();
+    rwhLogger.debug(`userSelected:`, userSelected);
     if (userSelected) {
         return;
     }
 
     let uiLocale = messenger.i18n.getUILanguage();
     let selected = rwhI18n.i18n.lang[uiLocale];
-    rwhLogger.debug('uiLocale:', uiLocale, 'selected:', selected);
+    rwhLogger.debug('uiLocale:', uiLocale, 'selected pref:', selected);
     if (typeof selected === 'undefined') {
         rwhLogger.info(`Currently does not have support for locale '${uiLocale}', fallback to 'en-US'`);
         await rwhSettings.set('header.locale', 'en-US');
@@ -50,7 +51,7 @@ async function detectLocaleAndSetAsDefault() {
     }
 
     let currentLocale = await rwhSettings.getHeaderLocale();
-    rwhLogger.debug('currentLocale:', currentLocale);
+    rwhLogger.debug('current selected Locale:', currentLocale);
     if (currentLocale !== uiLocale) {
         await rwhSettings.set('header.locale', uiLocale);
     }

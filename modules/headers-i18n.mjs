@@ -25,7 +25,7 @@ export const i18n = {
     "pt": "Portuguese - Português",
     "pt-BR": "Portuguese - Brazil",
     "ko": "Korean - 한국어",
-    "nl": "Dutch",
+    "nl": "Netherlands - Dutch",
     "nb": "Norwegian - Norsk Bokmål",
     "ru": "Russian - Pусский",
     "sv": "Swedish - Svenska",
@@ -55,7 +55,7 @@ export const i18n = {
     "ru": "От:",
     "sv": "Från:",
     "fi": "Lähettäjä:",
-    "zh-CN": "来自:",
+    "zh-CN": "发件人:",
     "hu": "Feladó:",
     "vi": "Từ:",
     "zh-TW": "從:"
@@ -169,7 +169,7 @@ export const i18n = {
     "es": "Enviado:",
     "ca": "Enviat:",
     "it": "Inviata:",
-    "ja": "送信メール:",
+    "ja": "送信日時:",
     "pl": "Wysłane:",
     "ar": "المرسلة:",
     "pt": "Enviado:",
@@ -180,10 +180,10 @@ export const i18n = {
     "ru": "Отправлено:",
     "sv": "Skickat:",
     "fi": "Lähetetty:",
-    "zh-CN": "发送了:",
+    "zh-CN": "发送时间:",
     "hu": "Küldött:",
     "vi": "Đã gửi:",
-    "zh-TW": "傳送:"
+    "zh-TW": "傳送時間:"
   },
   "reply-to": {
     "en-US": "Reply-To:",
@@ -194,7 +194,7 @@ export const i18n = {
     "es": "Responder a:",
     "ca": "Respondre a:",
     "it": "Rispondi-a:",
-    "ja": "に返信：",
+    "ja": "返信アドレス：",
     "pl": "Odpowiedź na:",
     "ar": "الرد على:",
     "pt": "Responder-Para:",
@@ -205,7 +205,7 @@ export const i18n = {
     "ru": "Ответить-кому:",
     "sv": "Svar till:",
     "fi": "Vastausosoite:",
-    "zh-CN": "回复到:",
+    "zh-CN": "回复地址:",
     "hu": "Válasz-Címzett:",
     "vi": "Trả lời Tới:",
     "zh-TW": "回函地址:"

@@ -24,7 +24,17 @@ const cleanBlockQuoteStyle = 'border:none !important; padding-left:0px !importan
 export async function process(tab) {
     rwhLogger.debug(`tab.id=${tab.id}, tab.type=${tab.type}, tab.mailTab=${tab.mailTab}`);
 
-    let composeDetails = await messenger.compose.getComposeDetails(tab.id);
+    // explicit delay workaround for image lost issue GH#197
+    // maximum 2s
+    let tabId = tab.id;
+    for (let i = 0; i < 10; i++) {
+        if (await hasNoMailnewsUrls(tabId)) {
+            break;
+        }
+        await new Promise(resolve => setTimeout(resolve, 200));
+    }
+
+    let composeDetails = await messenger.compose.getComposeDetails(tabId);
     rwhLogger.debug(composeDetails);
     if (composeDetails.type === 'new') {
         rwhLogger.debug('New message getting composed');
@@ -43,7 +53,7 @@ export async function process(tab) {
     let messageId = composeDetails.relatedMessageId;
 
     // Check 10s disable exists on message level
-    let isMessageLevelDisabled = await rwhSettings.get(`disable.${accountId}.message_${messageId}`);
+    let isMessageLevelDisabled = await rwhSettings.get(`disable.message_${messageId}`);
     rwhLogger.debug('isMessageLevelDisabled', isMessageLevelDisabled);
     if (isMessageLevelDisabled) {
         return; // RWH stops here
@@ -59,6 +69,19 @@ export async function process(tab) {
     }
 
     await rwh.process(tab);
+}
+
+// This is workaround method to resolve image issue GH#197
+// https://github.com/jeevatkm/ReplyWithHeader-Thunderbird/issues/197#issuecomment-3537253277
+async function hasNoMailnewsUrls(tabId) {
+    // This function could act on the actual DOM by executing a compose script
+    // which might be more reliable, but for simplicity of the example we just
+    // check the body text here.
+    const details = await messenger.compose.getComposeDetails(tabId);
+    return (
+        !details.body.includes("imap://") &&
+        !details.body.includes("mailbox://")
+    )
 }
 
 class ReplyWithHeader {
@@ -223,8 +246,9 @@ class ReplyWithHeader {
         let textLines = this.#text.split(/\r?\n/);
         rwhLogger.debug(textLines);
 
+        let uiLocale = messenger.i18n.getUILanguage();
         let locale = await rwhSettings.getHeaderLocale();
-        rwhLogger.debug('locale -', locale);
+        rwhLogger.debug('_processPlainText:: uiLocale:', uiLocale, 'selected pref:', locale);
 
         let startPos = -1;
         let linesToDelete = 1;
@@ -232,8 +256,10 @@ class ReplyWithHeader {
             // Reply insert marker by fallback order
             var lookupValues = new Array(
                 rwhI18n.i18n['wrote'][locale],
+                rwhI18n.i18n['wrote'][uiLocale],
                 rwhI18n.i18n['wrote']['en-US'],
                 rwhI18n.i18n['originalMessage'][locale],
+                rwhI18n.i18n['originalMessage'][uiLocale],
                 rwhI18n.i18n['originalMessage']['en-US'],
             );
             rwhLogger.debug('lookupValues -', lookupValues);

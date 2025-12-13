@@ -4,7 +4,7 @@
  <p align="center">Outlook style headers and few goodies for Thunderbird</p>
 </p>
 <p align="center">
- <a href="https://github.com/jeevatkm/ReplyWithHeaderMozilla/releases/latest" alt="Version"><img src="https://img.shields.io/badge/version-3.3.0-blue.svg" alt="Version" /></a> <a href="LICENSE" alt="LICENSE"><img src="https://img.shields.io/github/license/jeevatkm/ReplyWithHeaderMozilla.svg" alt="LICENSE" /></a> <a href="http://myjeeva.com/replywithheader-mozilla" alt"Home page"><img src="https://img.shields.io/badge/Homepage-blue" alt"Home page" /> </a>
+ <a href="https://github.com/jeevatkm/ReplyWithHeaderMozilla/releases/latest" alt="Version"><img src="https://img.shields.io/badge/version-3.3.1-blue.svg" alt="Version" /></a> <a href="LICENSE" alt="LICENSE"><img src="https://img.shields.io/github/license/jeevatkm/ReplyWithHeaderMozilla.svg" alt="LICENSE" /></a> <a href="http://myjeeva.com/replywithheader-mozilla" alt"Home page"><img src="https://img.shields.io/badge/Homepage-blue" alt"Home page" /> </a>
 </p>
 
 ## Download

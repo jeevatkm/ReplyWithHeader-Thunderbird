@@ -38,3 +38,7 @@ export function toPartialCanonicalFormat(hdrKey) {
     }
     return values.join('-');
 }
+
+export function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
