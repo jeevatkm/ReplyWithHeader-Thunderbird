@@ -12,6 +12,7 @@
 import { rwhLogger } from './logger.mjs';
 import * as rwhSettings from './settings.mjs';
 import * as rwhI18n from './headers-i18n.mjs';
+import { abbreviations } from './abbreviation.mjs';
 import * as rwhAccounts from './accounts.mjs';
 import * as rwhUtils from './utils.mjs';
 
@@ -145,7 +146,7 @@ class ReplyWithHeader {
 
     async process(tab) {
         let result = { isModified: false };
-        result.subject = await this._transformSubjectPrefix(this.#composeDetails.subject);
+        result.subject = await this._cleanSubjectPrefixes(this.#composeDetails.subject);
 
         if (this.isPlainText) {
             rwhLogger.debug('Plain Text', this.plainTextBody);
@@ -186,7 +187,7 @@ class ReplyWithHeader {
             'cc': await this._extractHeader('cc', true, true),
             'date': await this._extractHeader('date', false, true),
             'reply-to': await this._extractHeader('reply-to', true, true),
-            'subject': await this._transformSubjectPrefix(await this._extractHeader('subject', false, true)),
+            'subject': await this._cleanSubjectPrefixes(await this._extractHeader('subject', false, true)),
         }
         rwhLogger.debug(headers);
 
@@ -199,8 +200,8 @@ class ReplyWithHeader {
 
         // put back the cleaned up <br> tags as-is
         if (this.isReply) {
-			// Originally, there's no <br> after the (unindented) cite prefix.
-			// With the table style, it looks better with an extra empty line (like everybody else has it).
+            // Originally, there's no <br> after the (unindented) cite prefix.
+            // With the table style, it looks better with an extra empty line (like everybody else has it).
             div.insertAdjacentElement(positionBeforeEnd, this._createElement('br'));
             div.insertAdjacentElement(positionAfterBegin, this._createElement('br'));
 
@@ -236,7 +237,7 @@ class ReplyWithHeader {
             'cc': await this._extractHeader('cc', true, false),
             'date': await this._extractHeader('date', false, false),
             'reply-to': await this._extractHeader('reply-to', true, false),
-            'subject': await this._transformSubjectPrefix(await this._extractHeader('subject', false, false)),
+            'subject': await this._cleanSubjectPrefixes(await this._extractHeader('subject', false, false)),
         }
         rwhLogger.debug(headers);
 
@@ -336,7 +337,7 @@ class ReplyWithHeader {
             }
 
             if (headers[hdrKey]) {
-                rwhHeaders += '<p style="margin:0cm' + fontSizeStyle +'"><span><b>' + lbl + '</b> ' + headers[hdrKey] + '</span></p>';
+                rwhHeaders += '<p style="margin:0cm' + fontSizeStyle + '"><span><b>' + lbl + '</b> ' + headers[hdrKey] + '</span></p>';
             }
         }, this);
 
@@ -500,7 +501,8 @@ class ReplyWithHeader {
         }
     }
 
-    async _transformSubjectPrefix(subject) {
+    // replaced by _cleanSubjectPrefixes
+    /* async _transformSubjectPrefix(subject) {
         if (!(await rwhSettings.isTransSubjectPrefix())) {
             return subject;
         }
@@ -512,7 +514,7 @@ class ReplyWithHeader {
             return subject.replace(rwhSettings.forwardSubjectPrefix, 'FW:');
         }
         return subject;
-    }
+    } */
 
     async _handleAllHeadersFlow(clean, escape) {
         if (this.isReply) { return ''; }
@@ -542,4 +544,223 @@ class ReplyWithHeader {
 
         return '';
     }
+
+    async _cleanSubjectPrefixes(subject) {
+        if (subject === null || subject === undefined) {
+            return '';
+        }
+        if (typeof subject !== 'string') {
+            subject = String(subject);
+        }
+        if (subject.trim().length === 0) {
+            return subject;
+        }
+        // Examples:
+        // (keep different type)            FWD: RE: RE: FWD: Test Subject -> FWD: RE: FWD: Test Subject
+        // (dont keep different type)       FWD: RE: RE: FWD: Test Subject -> FWD: Test Subject // it only keep type of current action
+        // (uset-lang = en; keep original)       FW: AW: WG: Test Subject -> WG: AW: WG: Test Subject
+        // (uset-lang = en; dont keep original)  FW: AW: WG: Test Subject -> FW: RE: FW: Test Subject
+        //
+        // Flow:
+        // 1. Split subject to prefix parts by colon and remove space and colon. Safe subject to seperate value. Cover case of custom prefix.
+        //  Example: Aw: RE: FWD: AW: Test Subject -> prefixes = [Aw, RE, FWD, AW], subject = "Test Subject", customPrefix = ""
+        //  Example: Topic: Aw: RE: FWD: AW: Test Subject -> prefixes = [Aw, RE, FWD, AW], subject = "Test Subject", customPrefix = "Topic: "
+        // 2. Get language of second prefix. If no second prefix, set it to user language.
+        //  Example: [AW, RE, FWD, AW, RE] -> lang = en-US
+        // 3. Reduce by type (reply / forward).
+        //  Example: [AW, RE, FWD, AW, RE] -> [AW, FWD, AW]
+        // 4. "only one prefix" setting is true, remove all prefixes except current (first) type.
+        //  Example: [AW, FWD, AW] -> [AW]
+        // 5. "keep original language" setting check. Keep index.
+        // 5a. If uset "keep original language" is true, translate first prefix to lang.
+        //  Example: uset-lang = en-US; [AW, FW, AW] -> [RE, FW, RE]
+        // 5b. If uset "keep original language" is false, transform all prefixes to user selected language.
+        //  Example: uset-lang = de; [AW, FWD, AW] -> [AW, WG, AW]
+        // 6. If uset "Transform subject prefix" is true, transform prefixes to standard ones (first one in the i18n array).
+        //  Example: [Re, Fw, RE, FWD] -> [RE, FW, RE, FW]
+        // 7. return customPrefix prefixes joined with colon + space + subject.
+
+
+        // 1. Step: Split subject
+        let customPrefix = '';
+        let prefixes = [];
+        let subjectText = subject;
+
+        const allPrefixes = new Set([
+            ...Object.values(abbreviations.reply).flat(),
+            ...Object.values(abbreviations.forward).flat(),
+        ]);
+
+        let firstPrefixPos = -1;
+        for (let prefix of allPrefixes) {
+            let pos = subject.indexOf(prefix + ':');
+            if (pos === -1) {
+                continue;
+            }
+            // Require boundary: start or whitespace before the prefix.
+            if (pos > 0 && !/\s/.test(subject[pos - 1])) {
+                continue;
+            }
+            if (firstPrefixPos === -1 || pos < firstPrefixPos) {
+                firstPrefixPos = pos;
+            }
+        }
+
+        if (firstPrefixPos !== -1) {
+            customPrefix = subject.slice(0, firstPrefixPos);
+
+            let cursor = firstPrefixPos;
+            while (cursor < subject.length) {
+                let colonPos = subject.indexOf(':', cursor);
+                if (colonPos === -1) {
+                    break;
+                }
+                let token = subject.slice(cursor, colonPos).trim();
+
+                if (allPrefixes.has(token)) {
+                    prefixes.push(token);
+                    cursor = colonPos + 1;
+                    if (subject[cursor] === ' ') {
+                        cursor++;
+                    }
+                    continue;
+                }
+
+                // Allow a custom prefix between subject prefixes, e.g. "RE: Topic: RE: ..."
+                let lookaheadCursor = colonPos + 1;
+                if (subject[lookaheadCursor] === ' ') {
+                    lookaheadCursor++;
+                }
+                let nextColonPos = subject.indexOf(':', lookaheadCursor);
+                if (nextColonPos !== -1) {
+                    let nextToken = subject.slice(lookaheadCursor, nextColonPos).trim();
+                    if (allPrefixes.has(nextToken)) {
+                        customPrefix += token + ': ';
+                        cursor = lookaheadCursor;
+                        continue;
+                    }
+                }
+
+                // Not a prefix and no prefix after it: subject starts here.
+                break;
+            }
+            subjectText = subject.slice(cursor).trim();
+        } else {
+            return subject;
+        }
+
+        // 2. Step: Get language
+        let userLang = messenger.i18n.getUILanguage();
+        let mailLang = null;
+        if (prefixes.length >= 2) {
+            let info = this._getPrefixLanguageAndType(prefixes[1]);
+            mailLang = info ? info.lang : userLang;
+        } else if (prefixes.length === 1) {
+            let info = this._getPrefixLanguageAndType(prefixes[0]);
+            mailLang = info ? info.lang : userLang;
+        } else {
+            mailLang = userLang;
+        }
+
+        // 3. Step: Reduce by type
+        let reducedPrefixes = [];
+        let lastType = null;
+        for (let prefix of prefixes) {
+            let info = this._getPrefixLanguageAndType(prefix);
+            if (!info) {
+                reducedPrefixes.push(prefix);
+                lastType = null;
+                continue;
+            }
+            if (info.type !== lastType) {
+                reducedPrefixes.push(prefix);
+                lastType = info.type;
+            }
+        }
+        prefixes = reducedPrefixes;
+        rwhLogger.debug('Reduced Prefixes:', prefixes);
+
+
+        // 4. Step: "only one prefix"
+        if (await rwhSettings.isOnlyOnePrefix()) {
+            prefixes = [prefixes[0]];
+        }
+
+        // 5. Step: translate prefixes
+        if (await rwhSettings.isKeepOriginalSubjectPrefixLanguage()) {
+            // 5a. keep original language (translate first to mailLang)
+            let info = this._getPrefixLanguageAndType(prefixes[0]);
+            if (info) {
+                prefixes[0] = this._translatePrefix(prefixes[0], mailLang, info.index);
+            }
+        } else {
+            // 5b. transform to user selected language
+            let transformedPrefixes = [];
+            for (let prefix of prefixes) {
+                let info = this._getPrefixLanguageAndType(prefix);
+                if (info) {
+                    let translatedPrefix = this._translatePrefix(prefix, userLang, info.index);
+                    transformedPrefixes.push(translatedPrefix);
+                } else {
+                    transformedPrefixes.push(prefix);
+                }
+            }
+            prefixes = transformedPrefixes;
+        }
+        rwhLogger.debug('Translated Prefixes:', prefixes);
+
+        // 6. Step: transform to standard prefixes
+        if (await rwhSettings.isTransSubjectPrefix()) {
+            let transformedPrefixes = [];
+            for (let prefix of prefixes) {
+                let info = this._getPrefixLanguageAndType(prefix);
+                if (info) {
+                    let standardPrefixes = abbreviations[info.type][info.lang] || abbreviations[info.type]['en-US'];
+                    transformedPrefixes.push(standardPrefixes[0]);
+                } else {
+                    transformedPrefixes.push(prefix);
+                }
+            }
+            prefixes = transformedPrefixes;
+        }
+        rwhLogger.debug('Standardized Prefixes:', prefixes);
+
+        // 7. Step: return
+        if (prefixes.length === 0) {
+            return customPrefix + subjectText;
+        }
+        return prefixes.join(': ') + ': ' + customPrefix + subjectText;
+
+    }
+
+    // return { lang: langKey, type: 'reply' | 'forward', index: index }
+    _getPrefixLanguageAndType(prefix) {
+        for (let [langKey, prefixes] of Object.entries(abbreviations.reply)) {
+            if (prefixes.includes(prefix)) {
+                return { lang: langKey, type: 'reply', index: prefixes.indexOf(prefix) };
+            }
+        }
+        for (let [langKey, prefixes] of Object.entries(abbreviations.forward)) {
+            if (prefixes.includes(prefix)) {
+                return { lang: langKey, type: 'forward', index: prefixes.indexOf(prefix) };
+            }
+        }
+        return null;
+    }
+
+    // return string: single translated prefix
+    _translatePrefix(prefix, targetLang, index) {
+        let info = this._getPrefixLanguageAndType(prefix);
+        if (!info) {
+            return prefix;
+        }
+        let targetPrefixes = abbreviations[info.type][targetLang];
+        if (!targetPrefixes) {
+            return prefix;
+        }
+        return targetPrefixes[index] || targetPrefixes[0];
+    }
+
 }
+
+export { ReplyWithHeader };

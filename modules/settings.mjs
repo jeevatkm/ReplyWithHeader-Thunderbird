@@ -39,6 +39,8 @@ let keyHeaderHtmlPrefixLineColor = 'header.html.prefix.line.color';
 let keyHeaderHtmlFontSize = 'header.html.font.size';
 let keyHeaderHtmlFontSizeValue = 'header.html.font.size.value';
 let keyTransSubjectPrefix = 'trans.subject.prefix';
+let keyOnlyOnePrefix = 'subject.prefix.only.one';
+let keyKeepOriginalSubjectPrefixLanguage = 'subject.prefix.keep.original.language';
 let keyCleanBlockQuoteColor = 'clean.blockquote.color';
 let keyCleanAllBlockQuoteColor = 'clean.blockquote.all.color';
 let keyCleanQuoteCharGreaterThan = 'clean.quote.char.greaterthan';
@@ -55,6 +57,8 @@ let rwhDefaultSettings = {
     [keyHeaderHtmlFontSize]: false,
     [keyHeaderHtmlFontSizeValue]: '11.5pt',
     [keyTransSubjectPrefix]: true,
+    [keyOnlyOnePrefix]: false,
+    [keyKeepOriginalSubjectPrefixLanguage]: true,
 
     // Date & Time
     // 0 - Locale date format
@@ -171,6 +175,14 @@ export async function getHeaderHtmlFontSizeValue() {
 
 export async function isTransSubjectPrefix() {
     return await get(keyTransSubjectPrefix, rwhDefaultSettings[keyTransSubjectPrefix]);
+}
+
+export async function isOnlyOnePrefix() {
+    return await get(keyOnlyOnePrefix, rwhDefaultSettings[keyOnlyOnePrefix]);
+}
+
+export async function isKeepOriginalSubjectPrefixLanguage() {
+    return await get(keyKeepOriginalSubjectPrefixLanguage, rwhDefaultSettings[keyKeepOriginalSubjectPrefixLanguage]);
 }
 
 export async function isCleanBlockQuoteColor() {
