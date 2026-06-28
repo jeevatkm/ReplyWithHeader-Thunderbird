@@ -1,5 +1,5 @@
 {
-    "manifest_version": 2,
+    "manifest_version": 3,
     "name": "ReplyWithHeader",
     "description": "Outlook style headers and few goodies for Thunderbird",
     "version": "3.4.0-dev",
@@ -8,7 +8,7 @@
     "browser_specific_settings": {
         "gecko": {
             "id": "replywithheader@myjeeva.com",
-            "strict_min_version": "125.0"
+            "strict_min_version": "128.0"
         }
     },
     "icons": {
@@ -36,7 +36,10 @@
         }
     },
     "background": {
-        "page": "background.html"
+        "scripts": [
+            "background.js"
+        ],
+        "type": "module"
     },
     "options_ui": {
         "page": "/options/options.html"

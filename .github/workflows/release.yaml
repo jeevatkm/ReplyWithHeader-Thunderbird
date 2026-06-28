@@ -25,7 +25,16 @@ jobs:
         run: |
           git log --oneline $(git describe --tags --abbrev=0 @^)..@ > Changelog.tmp
       - name: Build artifacts
-        run: zip -r replywithheader-v${{ steps.version.outputs.VERSION }}.xpi * -x ".*"
+        run: |
+          zip -r replywithheader-v${{ steps.version.outputs.VERSION }}.xpi \
+            manifest.json \
+            background.html \
+            background.js \
+            modules \
+            options \
+            images \
+            LICENSE \
+            README.md
       - name: Create release
         uses: softprops/action-gh-release@v2
         if: startsWith(github.ref, 'refs/tags/') # Only run for new tags

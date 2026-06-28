@@ -74,8 +74,6 @@ async function init() {
     rwhLogger.info(`Add-on v${manifestInfo.version} loaded successfully (TB v${tbInfo.version}, Platform: ${tbPlatformInfo.os} ${tbPlatformInfo.arch})`);
 }
 
-try {
-    init();
-} catch (e) {
+init().catch((e) => {
     rwhLogger.error(e);
-}
+});
