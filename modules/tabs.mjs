@@ -14,13 +14,24 @@ import { rwhLogger } from './logger.mjs';
 const tabListeners = {};
 
 messenger.tabs.onCreated.addListener(async (tab) => {
-    tabListeners[tab.type](tab);
+    const listener = tabListeners[tab.type];
+    if (typeof listener !== 'function') {
+        rwhLogger.debug(`No listener registered for tab type '${tab.type}'`);
+        return;
+    }
+    listener(tab);
 });
 
 export async function findTab(messageId) {
     let tabs = await messenger.tabs.query();
     for (let tab of tabs) {
-        let msg = await messenger.messageDisplay.getDisplayedMessage(tab.id);
+        let msg;
+        try {
+            let messageList = await messenger.messageDisplay.getDisplayedMessages(tab.id);
+            msg = messageList?.messages?.[0];
+        } catch (e) {
+            continue;
+        }
         if (msg?.id == messageId) {
             return tab;
         }

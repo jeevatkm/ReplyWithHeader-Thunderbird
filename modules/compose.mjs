@@ -79,9 +79,10 @@ async function hasNoMailnewsUrls(tabId) {
     // which might be more reliable, but for simplicity of the example we just
     // check the body text here.
     const details = await messenger.compose.getComposeDetails(tabId);
+    const body = details?.body || '';
     return (
-        !details.body.includes("imap://") &&
-        !details.body.includes("mailbox://")
+        !body.includes("imap://") &&
+        !body.includes("mailbox://")
     )
 }
 
@@ -160,7 +161,7 @@ class ReplyWithHeader {
 
         // Apply it to message compose window
         rwhLogger.debug(result);
-        messenger.compose.setComposeDetails(tab.id, result);
+        await messenger.compose.setComposeDetails(tab.id, result);
     }
 
     // So called private/internal methods
@@ -213,11 +214,19 @@ class ReplyWithHeader {
                 }
             } else if (await rwhSettings.isCleanBlockQuoteColor()) { // first level
                 let bq = this._getByTagName('blockquote');
-                bq.setAttribute('style', cleanBlockQuoteStyle);
+                if (bq) {
+                    bq.setAttribute('style', cleanBlockQuoteStyle);
+                }
             }
         }
         if (this.isForward) {
             let mozForwardContainer = this._getByClassName('moz-forward-container');
+            if (!mozForwardContainer) {
+                rwhLogger.warn('moz-forward-container is not found while processing forward compose body');
+                return {
+                    body: new XMLSerializer().serializeToString(this.#document),
+                }
+            }
             this._cleanNodesUpToClassName(mozForwardContainer, targetNodeClassName);
 
             // Insert 2 <br> before the headers to make it look like a reply does.
@@ -402,7 +411,7 @@ class ReplyWithHeader {
         try {
             epoch = Date.parse(d);
         } catch (e) {
-            rwhLogger.error(error);
+            rwhLogger.error(e);
             return fallback;
         }
 

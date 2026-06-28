@@ -12,7 +12,7 @@
 export async function show(msg) {
     messenger.notifications.create({
         'type': 'basic',
-        'iconUrl': 'images/rwh.png',
+        'iconUrl': 'images/rwh.svg',
         'title': 'RWH',
         'message': msg
     });

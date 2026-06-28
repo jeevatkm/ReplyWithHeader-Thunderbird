@@ -84,11 +84,11 @@ export async function get(key, fallback) {
     rwhLogger.debug(obj);
 
     if (rwhUtils.isObjectEmpty(obj)) {
-        return null;
+        return fallback;
     }
 
     let result = obj[fullKey];
-    return result !== 'undefined' ? result : fallback;
+    return typeof result !== 'undefined' ? result : fallback;
 }
 
 export async function set(key, value) {
@@ -108,7 +108,7 @@ export async function getInt(key) {
 
 export async function setDefault(key, value) {
     let ev = await get(key);
-    if (ev === null) {
+    if (typeof ev === 'undefined' || ev === null) {
         set(key, value);
     }
 }

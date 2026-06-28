@@ -14,11 +14,73 @@ globalThis.window = {
 
 let currentUILang = 'en-US';
 const storageData = new Map();
+let mockTabs = [];
+let mockDisplayedMessages = {};
+let createdMenus = [];
+let badgeTextCalls = [];
+let menuClickHandlers = [];
 
 globalThis.messenger = {
     i18n: {
         getUILanguage() {
             return currentUILang;
+        }
+    },
+    tabs: {
+        onCreated: {
+            addListener() {
+                // No-op for unit tests.
+            }
+        },
+        async query() {
+            return mockTabs;
+        }
+    },
+    messageDisplay: {
+        async getDisplayedMessages(tabId) {
+            const result = mockDisplayedMessages[tabId];
+            if (result instanceof Error) {
+                throw result;
+            }
+            return result;
+        }
+    },
+    messageDisplayAction: {
+        async setBadgeText(obj) {
+            badgeTextCalls.push(obj);
+        }
+    },
+    menus: {
+        async create(menu) {
+            createdMenus.push(menu);
+            return menu.id || `menu-${createdMenus.length}`;
+        },
+        async remove(menuId) {
+            const index = createdMenus.findIndex(m => m.id === menuId);
+            if (index !== -1) {
+                createdMenus.splice(index, 1);
+            }
+        },
+        onClicked: {
+            addListener(handler) {
+                menuClickHandlers.push(handler);
+            },
+            removeListener(handler) {
+                menuClickHandlers = menuClickHandlers.filter((h) => h !== handler);
+            },
+            hasListener(handler) {
+                return menuClickHandlers.includes(handler);
+            }
+        }
+    },
+    runtime: {
+        openOptionsPage() {
+            // No-op for unit tests.
+        }
+    },
+    windows: {
+        openDefaultBrowser() {
+            // No-op for unit tests.
         }
     },
     storage: {
@@ -63,6 +125,39 @@ globalThis.messenger = {
 // ------------------------------------------------------------
 function resetStorage() {
     storageData.clear();
+}
+
+function resetMessageDisplayMocks() {
+    mockTabs = [];
+    mockDisplayedMessages = {};
+}
+
+function resetMenuMocks() {
+    createdMenus = [];
+    badgeTextCalls = [];
+    menuClickHandlers = [];
+}
+
+async function withNoopTimers(fn) {
+    const originalSetInterval = globalThis.setInterval;
+    const originalClearInterval = globalThis.clearInterval;
+    const originalSetTimeout = globalThis.setTimeout;
+    const originalClearTimeout = globalThis.clearTimeout;
+    let timerId = 0;
+
+    globalThis.setInterval = () => ++timerId;
+    globalThis.clearInterval = () => {};
+    globalThis.setTimeout = () => ++timerId;
+    globalThis.clearTimeout = () => {};
+
+    try {
+        await fn();
+    } finally {
+        globalThis.setInterval = originalSetInterval;
+        globalThis.clearInterval = originalClearInterval;
+        globalThis.setTimeout = originalSetTimeout;
+        globalThis.clearTimeout = originalClearTimeout;
+    }
 }
 
 async function setSettings({ transSubjectPrefix, onlyOnePrefix, keepOriginalLanguage }) {
@@ -203,6 +298,92 @@ async function runAllTests() {
         assertOk(!rwhUtils.isObjectEmpty({ a: 1 }), 'non-empty object should not be empty');
         assertEqual(rwhUtils.toPartialCanonicalFormat('x-message-id'), 'X-Message-ID');
         assertEqual(rwhUtils.toPartialCanonicalFormat('dkim-signature'), 'DKIM-Signature');
+    });
+
+    await test('tabs.findTab: skips tabs that cannot provide displayed messages', async () => {
+        resetMessageDisplayMocks();
+        mockTabs = [{ id: 11 }, { id: 22 }, { id: 33 }];
+        mockDisplayedMessages = {
+            11: new Error('Not a message display tab'),
+            22: { messages: [] },
+            33: { messages: [{ id: 'target-msg' }] }
+        };
+
+        const rwhTabs = await import('../modules/tabs.mjs');
+        const tab = await rwhTabs.findTab('target-msg');
+        assertEqual(tab?.id, 33, 'should continue scanning and find matching tab');
+    });
+
+    await test('tabs.findTab: returns null when no displayed message matches', async () => {
+        resetMessageDisplayMocks();
+        mockTabs = [{ id: 100 }, { id: 200 }];
+        mockDisplayedMessages = {
+            100: { messages: [{ id: 'msg-a' }] },
+            200: { messages: [] }
+        };
+
+        const rwhTabs = await import('../modules/tabs.mjs');
+        const tab = await rwhTabs.findTab('missing-msg');
+        assertEqual(tab, null, 'should return null if no tab has the message id');
+    });
+
+    await test('menus action: disable 10s safely no-ops when displayed message is empty', async () => {
+        resetStorage();
+        resetMenuMocks();
+        resetMessageDisplayMocks();
+        mockDisplayedMessages = {
+            700: { messages: [] }
+        };
+
+        const rwhMenus = await import('../modules/menus.mjs');
+        await withNoopTimers(async () => {
+            await rwhMenus.register();
+            const menu = createdMenus.find((m) => m.id === 'rwh_disable_10s');
+            assertOk(menu, 'disable menu should exist');
+            assertOk(menuClickHandlers.length > 0, 'onClicked listener should be registered');
+            await menuClickHandlers[0]({ menuItemId: 'rwh_disable_10s' }, { id: 700 });
+        });
+
+        const all = await messenger.storage.local.get(null);
+        const hasDisablePref = Object.keys(all).some((k) => k.startsWith('extensions.replywithheader.disable.message_'));
+        assertOk(!hasDisablePref, 'disable pref should not be written when no message exists');
+        assertEqual(badgeTextCalls.length, 0, 'badge should not update when no message exists');
+    });
+
+    await test('menus action: forward all headers writes scoped pref for valid displayed message', async () => {
+        resetStorage();
+        resetMenuMocks();
+        resetMessageDisplayMocks();
+        mockDisplayedMessages = {
+            701: { messages: [{ id: 99, folder: { accountId: 'acc-7' } }] }
+        };
+
+        const rwhMenus = await import('../modules/menus.mjs');
+        await withNoopTimers(async () => {
+            await rwhMenus.register();
+            const menu = createdMenus.find((m) => m.id === 'rwh_all_headers_10s');
+            assertOk(menu, 'all-headers menu should exist');
+            assertOk(menuClickHandlers.length > 0, 'onClicked listener should be registered');
+            await menuClickHandlers[0]({ menuItemId: 'rwh_all_headers_10s' }, { id: 701 });
+        });
+
+        const pref = await messenger.storage.local.get('extensions.replywithheader.header.fwd.all.acc-7.message_99');
+        assertEqual(pref['extensions.replywithheader.header.fwd.all.acc-7.message_99'], true, 'forward all headers pref should be written');
+        assertEqual(badgeTextCalls[0]?.text, '10s', 'badge should initialize to 10s');
+    });
+
+    await test('menus register: repeated calls are idempotent for menu ids and click handler', async () => {
+        resetMenuMocks();
+
+        const rwhMenus = await import('../modules/menus.mjs');
+        await rwhMenus.register();
+        await rwhMenus.register();
+
+        const menuIds = createdMenus.map((m) => m.id).filter((id) => typeof id === 'string');
+        const uniqueMenuIds = new Set(menuIds);
+
+        assertEqual(menuIds.length, uniqueMenuIds.size, 'menu ids should remain unique after repeated register calls');
+        assertEqual(menuClickHandlers.length, 1, 'exactly one onClicked handler should remain after repeated register calls');
     });
 }
 
