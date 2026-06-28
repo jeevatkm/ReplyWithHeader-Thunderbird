@@ -146,7 +146,9 @@ class ReplyWithHeader {
     }
 
     async process(tab) {
-        let result = { isModified: false };
+        // Start with all original composeDetails to preserve all properties
+        let result = { ...this.#composeDetails };
+        result.isModified = false;
         result.subject = await this._cleanSubjectPrefixes(this.#composeDetails.subject);
 
         if (this.isPlainText) {
