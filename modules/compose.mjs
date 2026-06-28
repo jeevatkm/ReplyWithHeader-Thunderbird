@@ -255,6 +255,10 @@ class ReplyWithHeader {
         let rwhHeaders = await this._createPlainTextHeaders(headers);
         rwhLogger.debug(rwhHeaders);
 
+        // Detect line ending style from original text
+        let lineEnding = this._detectLineEnding(this.#text);
+        rwhLogger.debug('Detected line ending:', lineEnding);
+
         let textLines = this.#text.split(/\r?\n/);
         rwhLogger.debug(textLines);
 
@@ -310,7 +314,7 @@ class ReplyWithHeader {
             }
         }
 
-        this.#text = textLines.join('\r\n');
+        this.#text = textLines.join(lineEnding);
         return {
             plainTextBody: this.#text
         }
@@ -510,6 +514,15 @@ class ReplyWithHeader {
             }
             node.removeChild(node.firstChild);
         }
+    }
+
+    _detectLineEnding(text) {
+        if (text.includes('\r\n')) {
+            return '\r\n';
+        } else if (text.includes('\n')) {
+            return '\n';
+        }
+        return '\r\n'; // default to Windows-style
     }
 
     // replaced by _cleanSubjectPrefixes

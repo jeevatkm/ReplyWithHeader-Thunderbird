@@ -372,6 +372,57 @@ async function runAllTests() {
         assertEqual(badgeTextCalls[0]?.text, '10s', 'badge should initialize to 10s');
     });
 
+    await test('line ending: preserves CRLF line endings', async () => {
+        resetStorage();
+        const rwh = await createRwh();
+        const text = 'Line 1\r\nLine 2\r\nLine 3';
+        const lineEnding = rwh._detectLineEnding(text);
+        const textLines = text.split(/\r?\n/);
+        const result = textLines.join(lineEnding);
+        
+        assertEqual(lineEnding, '\r\n', 'should detect CRLF');
+        assertEqual(result, 'Line 1\r\nLine 2\r\nLine 3', 'should preserve CRLF');
+    });
+
+    await test('line ending: preserves LF line endings', async () => {
+        resetStorage();
+        const rwh = await createRwh();
+        const text = 'Line 1\nLine 2\nLine 3';
+        const lineEnding = rwh._detectLineEnding(text);
+        const textLines = text.split(/\r?\n/);
+        const result = textLines.join(lineEnding);
+        
+        assertEqual(lineEnding, '\n', 'should detect LF');
+        assertEqual(result, 'Line 1\nLine 2\nLine 3', 'should preserve LF');
+    });
+
+    await test('line ending: defaults to CRLF for empty text', async () => {
+        resetStorage();
+        const rwh = await createRwh();
+        const text = '';
+        const lineEnding = rwh._detectLineEnding(text);
+        
+        assertEqual(lineEnding, '\r\n', 'should default to CRLF for empty text');
+    });
+
+    await test('line ending: defaults to CRLF for text without line endings', async () => {
+        resetStorage();
+        const rwh = await createRwh();
+        const text = 'Single line';
+        const lineEnding = rwh._detectLineEnding(text);
+        
+        assertEqual(lineEnding, '\r\n', 'should default to CRLF when no line endings found');
+    });
+
+    await test('line ending: handles mixed line endings (prefers CRLF)', async () => {
+        resetStorage();
+        const rwh = await createRwh();
+        const text = 'Line 1\r\nLine 2\nLine 3';
+        const lineEnding = rwh._detectLineEnding(text);
+        
+        assertEqual(lineEnding, '\r\n', 'should prefer CRLF when both present');
+    });
+
     await test('menus register: repeated calls are idempotent for menu ids and click handler', async () => {
         resetMenuMocks();
 
